@@ -3,6 +3,7 @@ package jam3;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,6 +23,8 @@ import javax.swing.event.ChangeListener;
 
 public class GPanel extends JFrame implements ActionListener, ChangeListener{
 	
+	private int tmpCount = 0;
+	
 	private JButton AdvanceButton;
 	private JButton trafficLight;
 	private JLabel SignalLabel;
@@ -29,6 +32,7 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 	private JLabel CountJamLabel;
 	private JLabel MAXJamLengthLabel;
 	private JLabel MAXMAXJamLengthLabel;
+	private JLabel jamState;
 	private JCheckBox AutoCheckBox;
 	private JCheckBox AutoSignalCheckBox;
 	private JSlider slider;
@@ -48,13 +52,17 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JPanel OverPanel = new JPanel();
 		JPanel UnderPanel = new JPanel();
-		JPanel CenterPanel = new JPanel();
+		JPanel CenterInfoPanel = new JPanel();
+		//JPanel StatePanel = new JPanel();
 		JPanel BluePanel = new JPanel();
 		JPanel RedPanel = new JPanel();
 		JPanel SliderPanel = new JPanel();
 		CountJamLabel = new JLabel("渋滞の長さ" );
 		MAXJamLengthLabel = new JLabel("最大の渋滞の長さ");
 		MAXMAXJamLengthLabel = new JLabel("今までの最大の渋滞の長さ" );
+		jamState = new JLabel("aaaa");
+		//jamState.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 50));
+		CenterInfoPanel.setLayout(new BoxLayout(CenterInfoPanel, BoxLayout.Y_AXIS));
 		BluePanel.setLayout(new BoxLayout(BluePanel, BoxLayout.Y_AXIS));
 		RedPanel.setLayout(new BoxLayout(RedPanel, BoxLayout.Y_AXIS));
 		SliderPanel.setLayout(new BoxLayout(SliderPanel, BoxLayout.Y_AXIS));
@@ -96,10 +104,11 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 		OverPanel.add(AdvanceButton);
 		OverPanel.add(trafficLight);
 		UnderPanel.add(SignalLabel);
-		CenterPanel.add(CountJamLabel);
-		CenterPanel.add(MAXJamLengthLabel);
-		CenterPanel.add(MAXMAXJamLengthLabel);
-		getContentPane().add(CenterPanel, BorderLayout.CENTER);
+		CenterInfoPanel.add(CountJamLabel);
+		CenterInfoPanel.add(MAXJamLengthLabel);
+		CenterInfoPanel.add(MAXMAXJamLengthLabel);
+		//CenterPanel.add(jamState);
+		getContentPane().add(CenterInfoPanel, BorderLayout.CENTER);
 		getContentPane().add(OverPanel, BorderLayout.NORTH);
 		getContentPane().add(UnderPanel, BorderLayout.SOUTH);
 		timer = new Timer(100 , this);
@@ -167,6 +176,14 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 			road.autoAdvanceStop();
 			AdvanceButton.setEnabled(true);
 		}
+		
+		/*ラベルの設定*/
+		int l = road.MAXJamLength();
+		if(tmpCount < l) tmpCount = l;
+		CountJamLabel.setText("渋滞の数:" + road.CountJam());
+		MAXJamLengthLabel.setText("最大の渋滞の長さ:" + l);
+		MAXMAXJamLengthLabel.setText("今までの最大の渋滞の長さ:" + tmpCount);
+	
 	}//end of ActionPerformed
 
 	

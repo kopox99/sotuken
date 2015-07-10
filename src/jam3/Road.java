@@ -43,6 +43,46 @@ public class Road implements ActionListener{
 		AutoAdvance = false;
 	}
 	
+	public int MAXJamLength(){
+		int count = 0;
+		int tmp = 0;
+		int j;
+		for(int i=1; i<jam.length; i++){
+			if(jam[i-1] == true){
+				for(j=i-1; j<jam.length-1; j++){
+					if(jam[j] == true){
+						count++;
+					}else{
+						break;
+					}
+				}
+				if(tmp < count){
+					tmp = count;
+				}
+				count = 0;
+				i = j + 1;
+			}
+		}
+		return tmp;
+	}
+	
+	public int CountJam(){
+		int count = 0;
+		int j;
+		for(int i=1; i<jam.length; i++){
+			if(jam[i-1]==true && jam[i]==true){
+				count++;
+				for(j=i; j<jam.length-1; j++){
+					if(jam[j] == false){
+						break;
+					}
+				}
+				i = j + 1;
+			}
+		}
+		return count;
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub

@@ -53,7 +53,7 @@ public class Signal implements ActionListener{
 			if(cmd.equals("timer")){
 				if(!SignalColor){
 					ChangeSignalToRed++;
-					System.out.println(ChangeSignalToRed);
+//					System.out.println(ChangeSignalToRed);
 					if(ChangeSignalToRed ==  getBlue()){
 						setSignalColor(true);
 						ChangeSignalToRed = 0;
@@ -61,7 +61,7 @@ public class Signal implements ActionListener{
 				}//青信号の時の処理
 				else{
 					ChangeSignalToBlue++;
-					System.out.println(ChangeSignalToBlue);
+//					System.out.println(ChangeSignalToBlue);
 					if(ChangeSignalToBlue ==  getRed()){
 						setSignalColor(false);
 						ChangeSignalToBlue = 0;
