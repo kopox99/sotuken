@@ -49,24 +49,24 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 	GPanel(){
 		
 		setTitle("jam");
-		setSize(500, 400);
+		setSize(850, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JPanel OverPanel = new JPanel();
 		JPanel UnderPanel = new JPanel();
-		JPanel CenterInfoPanel = new JPanel();
-		//JPanel StatePanel = new JPanel();
+		JPanel CenterPanel = new JPanel();
 		JPanel BluePanel = new JPanel();
 		JPanel RedPanel = new JPanel();
 		JPanel SliderPanel = new JPanel();
+		JPanel RightPanel = new JPanel();
 		CountJamLabel = new JLabel("渋滞の長さ" );
 		MAXJamLengthLabel = new JLabel("最大の渋滞の長さ");
 		MAXMAXJamLengthLabel = new JLabel("今までの最大の渋滞の長さ" );
-		jamState = new JLabel("aaaa");
-		//jamState.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 50));
-		CenterInfoPanel.setLayout(new BoxLayout(CenterInfoPanel, BoxLayout.Y_AXIS));
+		jamState = new JLabel();
+		CenterPanel.setLayout(new BoxLayout(CenterPanel, BoxLayout.X_AXIS));
 		BluePanel.setLayout(new BoxLayout(BluePanel, BoxLayout.Y_AXIS));
 		RedPanel.setLayout(new BoxLayout(RedPanel, BoxLayout.Y_AXIS));
 		SliderPanel.setLayout(new BoxLayout(SliderPanel, BoxLayout.Y_AXIS));
+		RightPanel.setLayout(new BoxLayout(RightPanel, BoxLayout.Y_AXIS));
 		JLabel BlueLabel = new JLabel("緑秒");
 		JLabel RedLabel = new JLabel("赤秒");
 		SliderLabel = new JLabel("車が出る確率：" + (String.valueOf(road.getProbability())) + "%");
@@ -105,13 +105,14 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 		OverPanel.add(AdvanceButton);
 		OverPanel.add(trafficLight);
 		UnderPanel.add(SignalLabel);
-		CenterInfoPanel.add(CountJamLabel);
-		CenterInfoPanel.add(MAXJamLengthLabel);
-		CenterInfoPanel.add(MAXMAXJamLengthLabel);
-		//CenterPanel.add(jamState);
-		getContentPane().add(CenterInfoPanel, BorderLayout.CENTER);
+		RightPanel.add(CountJamLabel);
+		RightPanel.add(MAXJamLengthLabel);
+		RightPanel.add(MAXMAXJamLengthLabel);
+		CenterPanel.add(jamState);
+		getContentPane().add(CenterPanel, BorderLayout.CENTER);
 		getContentPane().add(OverPanel, BorderLayout.NORTH);
 		getContentPane().add(UnderPanel, BorderLayout.SOUTH);
+		getContentPane().add(RightPanel, BorderLayout.EAST);
 		timer = new Timer(100 , this);
 		timer.setActionCommand("timer");
 		timer.start();
@@ -162,7 +163,8 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 		/*advanceボタンを押すと車が前進*/
 		if(cmd.equals("advance")){
 			String s = GetString(road.advance());
-			System.out.println(s);
+			jamState.setText(s);
+//			System.out.println(s);
 		}
 		
 		/*AutoCheckBoxにチェックを入れると自動前進*/
@@ -170,7 +172,8 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 			AdvanceButton.setEnabled(false);    
 			road.autoAdvanceStart();
 			String s = GetString(road.getJam());
-			System.out.println(s);
+			jamState.setText(s);
+//			System.out.println(s);
 		}
 		else{
 			road.autoAdvanceStop();
@@ -197,7 +200,7 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 		String s = "";
 		for(int i=0; i<jam.length; i++){
 			if(i == road.getSIGNALPOINT()+1){
-				s = s + " ";
+				s = s + "  ";
 			}
 			if(jam[i] == true){
 				s = s + "●";
@@ -208,7 +211,4 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 		return s;
 	}
 	
-	
-	
-
-}
+}//end of class
