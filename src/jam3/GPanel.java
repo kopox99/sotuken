@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -34,6 +35,7 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 	private JLabel MAXJamLengthLabel;
 	private JLabel MAXMAXJamLengthLabel;
 	private JLabel jamState;
+	private JLabel jamState2;
 	private JCheckBox AutoCheckBox;
 	private JCheckBox AutoSignalCheckBox;
 	private JSlider slider;
@@ -51,7 +53,7 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 		setTitle("jam");
 		setSize(850, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		JPanel OverPanel = new JPanel();
+		JPanel OverPanel= new JPanel();
 		JPanel UnderPanel = new JPanel();
 		JPanel CenterPanel = new JPanel();
 		JPanel BluePanel = new JPanel();
@@ -62,7 +64,10 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 		MAXJamLengthLabel = new JLabel("最大の渋滞の長さ");
 		MAXMAXJamLengthLabel = new JLabel("今までの最大の渋滞の長さ" );
 		jamState = new JLabel();
-		CenterPanel.setLayout(new BoxLayout(CenterPanel, BoxLayout.X_AXIS));
+		jamState2 = new JLabel("aaaa");
+		jamState.setVerticalAlignment(JLabel.BOTTOM);
+		jamState2.setVerticalAlignment(JLabel.TOP);
+		CenterPanel.setLayout(new GridLayout(2, 1));
 		BluePanel.setLayout(new BoxLayout(BluePanel, BoxLayout.Y_AXIS));
 		RedPanel.setLayout(new BoxLayout(RedPanel, BoxLayout.Y_AXIS));
 		SliderPanel.setLayout(new BoxLayout(SliderPanel, BoxLayout.Y_AXIS));
@@ -109,6 +114,7 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 		RightPanel.add(MAXJamLengthLabel);
 		RightPanel.add(MAXMAXJamLengthLabel);
 		CenterPanel.add(jamState);
+		CenterPanel.add(jamState2);
 		getContentPane().add(CenterPanel, BorderLayout.CENTER);
 		getContentPane().add(OverPanel, BorderLayout.NORTH);
 		getContentPane().add(UnderPanel, BorderLayout.SOUTH);
@@ -163,7 +169,7 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 		/*advanceボタンを押すと車が前進*/
 		if(cmd.equals("advance")){
 			String s = GetString(road.advance());
-			jamState.setText(s);
+			jamState.setText(s);;
 //			System.out.println(s);
 		}
 		
@@ -200,7 +206,11 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 		String s = "";
 		for(int i=0; i<jam.length; i++){
 			if(i == road.getSIGNALPOINT()+1){
-				s = s + "  ";
+				if(signal.isSignalColor()){
+					s = s + "//";
+				}else{
+					s = s + "  ";
+				}
 			}
 			if(jam[i] == true){
 				s = s + "●";

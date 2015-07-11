@@ -12,10 +12,8 @@ public class Road implements ActionListener{
 	private int PROBABILITY = 50;
 	private final int MAX = 50;
 	private int SIGNALPOINT = MAX/2;
-	private boolean signalcolor = false;
-	private boolean flag = false;
 	
-	private boolean advance = false;
+	private boolean signalcolor = false;
 	private boolean AutoAdvance = false;
 	
 	private boolean jam[] = new boolean[MAX];
