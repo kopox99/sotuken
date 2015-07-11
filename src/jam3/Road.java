@@ -16,7 +16,8 @@ public class Road implements ActionListener{
 	private boolean signalcolor = false;
 	private boolean AutoAdvance = false;
 	
-	private boolean jam[] = new boolean[MAX];
+	private boolean slowLane[] = new boolean[MAX];
+	private boolean fastLane[] = new boolean[MAX];
 	
 	private Timer timer;
 	
@@ -27,9 +28,9 @@ public class Road implements ActionListener{
 	
 	public boolean[] advance(){
 		boolean bb[] = new boolean[MAX];
-		bb = getJam();
+		bb = getSlowLane();
 		advanceCar(bb);
-		setJam(bb);
+		setFaseLane(bb);
 		return bb;
 	}
 	
@@ -47,10 +48,10 @@ public class Road implements ActionListener{
 		int count = 0;
 		int tmp = 0;
 		int j;
-		for(int i=1; i<jam.length; i++){
-			if(jam[i-1] == true){
-				for(j=i-1; j<jam.length-1; j++){
-					if(jam[j] == true){
+		for(int i=1; i<slowLane.length; i++){
+			if(slowLane[i-1] == true){
+				for(j=i-1; j<slowLane.length-1; j++){
+					if(slowLane[j] == true){
 						count++;
 					}else{
 						break;
@@ -66,14 +67,14 @@ public class Road implements ActionListener{
 		return tmp;
 	}
 	
-	public int CountJam(){
+	public int countJam(){
 		int count = 0;
 		int j;
-		for(int i=1; i<jam.length; i++){
-			if(jam[i-1]==true && jam[i]==true){
+		for(int i=1; i<slowLane.length; i++){
+			if(slowLane[i-1]==true && slowLane[i]==true){
 				count++;
-				for(j=i; j<jam.length-1; j++){
-					if(jam[j] == false){
+				for(j=i; j<slowLane.length-1; j++){
+					if(slowLane[j] == false){
 						break;
 					}
 				}
@@ -85,13 +86,10 @@ public class Road implements ActionListener{
 	
 	
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		String cmd = e.getActionCommand();
-		
 		if(AutoAdvance){
-			jam = getJam();
-			advanceCar(jam);
-			setJam(jam);
+			slowLane = getSlowLane();
+			advanceCar(slowLane);
+			setFaseLane(slowLane);
 		}
 		
 	}
@@ -151,16 +149,24 @@ public class Road implements ActionListener{
 		return SIGNALPOINT;
 	}
 	
-	public boolean[] getJam() {
-		return this.jam;
+	public boolean[] getSlowLane() {
+		return this.slowLane;
 	}
 
-	public void setJam(boolean[] jam) {
-		this.jam = jam;
+	public void setFaseLane(boolean[] jam) {
+		this.slowLane = jam;
 	}
 	
 	public void setSiganl(boolean i){
 		this.signalcolor = i;
+	}
+
+	public boolean[] getFastLane() {
+		return fastLane;
+	}
+
+	public void setFastLane(boolean fastLane[]) {
+		this.fastLane = fastLane;
 	}
 
 

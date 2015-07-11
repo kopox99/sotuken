@@ -34,8 +34,8 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 	private JLabel CountJamLabel;
 	private JLabel MAXJamLengthLabel;
 	private JLabel MAXMAXJamLengthLabel;
-	private JLabel jamState;
-	private JLabel jamState2;
+	private JLabel slowLaneLabel;
+	private JLabel fastLaneLabel;
 	private JCheckBox AutoCheckBox;
 	private JCheckBox AutoSignalCheckBox;
 	private JSlider slider;
@@ -63,10 +63,10 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 		CountJamLabel = new JLabel("渋滞の長さ" );
 		MAXJamLengthLabel = new JLabel("最大の渋滞の長さ");
 		MAXMAXJamLengthLabel = new JLabel("今までの最大の渋滞の長さ" );
-		jamState = new JLabel();
-		jamState2 = new JLabel("aaaa");
-		jamState.setVerticalAlignment(JLabel.BOTTOM);
-		jamState2.setVerticalAlignment(JLabel.TOP);
+		slowLaneLabel = new JLabel();
+		fastLaneLabel = new JLabel("aaaa");
+		slowLaneLabel.setVerticalAlignment(JLabel.BOTTOM);
+		fastLaneLabel.setVerticalAlignment(JLabel.TOP);
 		CenterPanel.setLayout(new GridLayout(2, 1));
 		BluePanel.setLayout(new BoxLayout(BluePanel, BoxLayout.Y_AXIS));
 		RedPanel.setLayout(new BoxLayout(RedPanel, BoxLayout.Y_AXIS));
@@ -113,8 +113,8 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 		RightPanel.add(CountJamLabel);
 		RightPanel.add(MAXJamLengthLabel);
 		RightPanel.add(MAXMAXJamLengthLabel);
-		CenterPanel.add(jamState);
-		CenterPanel.add(jamState2);
+		CenterPanel.add(slowLaneLabel);
+		CenterPanel.add(fastLaneLabel);
 		getContentPane().add(CenterPanel, BorderLayout.CENTER);
 		getContentPane().add(OverPanel, BorderLayout.NORTH);
 		getContentPane().add(UnderPanel, BorderLayout.SOUTH);
@@ -169,7 +169,7 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 		/*advanceボタンを押すと車が前進*/
 		if(cmd.equals("advance")){
 			String s = GetString(road.advance());
-			jamState.setText(s);;
+			slowLaneLabel.setText(s);;
 //			System.out.println(s);
 		}
 		
@@ -177,8 +177,8 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 		if(AutoCheckBox.isSelected()){
 			AdvanceButton.setEnabled(false);    
 			road.autoAdvanceStart();
-			String s = GetString(road.getJam());
-			jamState.setText(s);
+			String s = GetString(road.getSlowLane());
+			slowLaneLabel.setText(s);
 //			System.out.println(s);
 		}
 		else{
@@ -189,7 +189,7 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 		/*ラベルの設定*/
 		int l = road.MAXJamLength();
 		if(tmpCount < l) tmpCount = l;
-		CountJamLabel.setText("渋滞の数:" + road.CountJam());
+		CountJamLabel.setText("渋滞の数:" + road.countJam());
 		MAXJamLengthLabel.setText("最大の渋滞の長さ:" + l);
 		MAXMAXJamLengthLabel.setText("今までの最大の渋滞の長さ:" + tmpCount);
 	
