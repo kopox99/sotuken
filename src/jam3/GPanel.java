@@ -1,5 +1,6 @@
 package jam3;
 
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -117,7 +118,6 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 		
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		String cmd = e.getActionCommand();
@@ -125,8 +125,8 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 		/********************信号***************************/
 		
 		/*スピンボックスから信号の色を保持する時間を所得*/
-		signal.setBlue((int)ToRedmodel.getValue());
-		signal.setRed((int)ToBluemodel.getValue());
+		signal.setBlue(((Integer)(ToRedmodel.getValue())).intValue());
+		signal.setRed(((Integer)ToBluemodel.getValue()).intValue());
 		
 		/*signalボタンを押すと信号の色が変化*/
 		if(cmd.equals("signal")){
@@ -187,7 +187,6 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 	}//end of ActionPerformed
 
 	
-	@Override
 	public void stateChanged(ChangeEvent e) {
 		// TODO Auto-generated method stub
 		SliderLabel.setText("車が出る確率：" + (slider.getValue()) + "%");
