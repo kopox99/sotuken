@@ -64,7 +64,7 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 		MAXJamLengthLabel = new JLabel("最大の渋滞の長さ");
 		MAXMAXJamLengthLabel = new JLabel("今までの最大の渋滞の長さ" );
 		slowLaneLabel = new JLabel();
-		fastLaneLabel = new JLabel("aaaa");
+		fastLaneLabel = new JLabel("");
 		slowLaneLabel.setVerticalAlignment(JLabel.BOTTOM);
 		fastLaneLabel.setVerticalAlignment(JLabel.TOP);
 		CenterPanel.setLayout(new GridLayout(2, 1));
@@ -132,7 +132,7 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 		/********************信号***************************/
 		
 		/*スピンボックスから信号の色を保持する時間を所得*/
-		signal.setBlue(((Integer)(ToRedmodel.getValue())).intValue());
+		signal.setBlue((((Integer)(ToRedmodel.getValue()))).intValue());
 		signal.setRed(((Integer)ToBluemodel.getValue()).intValue());
 		
 		/*signalボタンを押すと信号の色が変化*/
@@ -168,18 +168,19 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 
 		/*advanceボタンを押すと車が前進*/
 		if(cmd.equals("advance")){
-			String s = GetString(road.advance());
-			slowLaneLabel.setText(s);;
-//			System.out.println(s);
+			road.advance();
+			String slowLaneString = GetString(road.getSlowLane());
+			slowLaneLabel.setText(slowLaneString);
+			String fastLaneString = GetString(road.getFastLane());
+			fastLaneLabel.setText(fastLaneString);
 		}
 		
 		/*AutoCheckBoxにチェックを入れると自動前進*/
 		if(AutoCheckBox.isSelected()){
 			AdvanceButton.setEnabled(false);    
 			road.autoAdvanceStart();
-			String s = GetString(road.getSlowLane());
-			slowLaneLabel.setText(s);
-//			System.out.println(s);
+			String slowLaneString = GetString(road.getSlowLane());
+			slowLaneLabel.setText(slowLaneString);
 		}
 		else{
 			road.autoAdvanceStop();
@@ -187,11 +188,9 @@ public class GPanel extends JFrame implements ActionListener, ChangeListener{
 		}
 		
 		/*ラベルの設定*/
-		int l = road.MAXJamLength();
-		if(tmpCount < l) tmpCount = l;
-		CountJamLabel.setText("渋滞の数:" + road.countJam());
-		MAXJamLengthLabel.setText("最大の渋滞の長さ:" + l);
-		MAXMAXJamLengthLabel.setText("今までの最大の渋滞の長さ:" + tmpCount);
+		CountJamLabel.setText("渋滞の数:" + road.getNumberOfJam());
+		MAXJamLengthLabel.setText("最大の渋滞の長さ:" + road.getMostLengthJam());
+		MAXMAXJamLengthLabel.setText("今までの最大の渋滞の長さ:" + road.getAllTimeMostLengthJam());
 	
 	}//end of ActionPerformed
 
