@@ -13,6 +13,10 @@ public class Road implements ActionListener{
 	private final int MAX = 50;
 	private int SIGNALPOINT = MAX/2;
 	
+	private int numberOfJam = 0;
+	private int mostLengthJam = 0;
+	private int allTimeMostLengthJam = 0;
+	
 	private boolean signalcolor = false;
 	private boolean AutoAdvance = false;
 	
@@ -26,12 +30,15 @@ public class Road implements ActionListener{
 		timer.setActionCommand("timer");
 	}
 	
-	public boolean[] advance(){
+	public void advance(){
 		boolean bb[] = new boolean[MAX];
 		bb = getSlowLane();
 		advanceCar(bb);
-		setSlowLane(bb);
-		return bb;
+		countJam(bb);
+		MAXJamLength(bb);
+		if(allTimeMostLengthJam < mostLengthJam){
+			allTimeMostLengthJam = mostLengthJam;
+		}
 	}
 	
 	public void autoAdvanceStart(){
@@ -44,14 +51,14 @@ public class Road implements ActionListener{
 		AutoAdvance = false;
 	}
 	
-	public int MAXJamLength(){
+	public void MAXJamLength(boolean jam[]){
 		int count = 0;
 		int tmp = 0;
 		int j;
-		for(int i=1; i<slowLane.length; i++){
-			if(slowLane[i-1] == true){
-				for(j=i-1; j<slowLane.length-1; j++){
-					if(slowLane[j] == true){
+		for(int i=1; i<jam.length; i++){
+			if(jam[i-1] == true){
+				for(j=i-1; j<jam.length-1; j++){
+					if(jam[j] == true){
 						count++;
 					}else{
 						break;
@@ -64,24 +71,24 @@ public class Road implements ActionListener{
 				i = j + 1;
 			}
 		}
-		return tmp;
+		setMostLengthJam(tmp);
 	}
 	
-	public int countJam(){
+	public void countJam(boolean jam[]){
 		int count = 0;
 		int j;
-		for(int i=1; i<slowLane.length; i++){
-			if(slowLane[i-1]==true && slowLane[i]==true){
+		for(int i=1; i<jam.length; i++){
+			if(jam[i-1]==true && jam[i]==true){
 				count++;
-				for(j=i; j<slowLane.length-1; j++){
-					if(slowLane[j] == false){
+				for(j=i; j<jam.length-1; j++){
+					if(jam[j] == false){
 						break;
 					}
 				}
 				i = j + 1;
 			}
 		}
-		return count;
+		setNumberOfJam(count);
 	}
 	
 	
@@ -89,7 +96,13 @@ public class Road implements ActionListener{
 		if(AutoAdvance){
 			slowLane = getSlowLane();
 			advanceCar(slowLane);
-			setFastLane(slowLane);
+			setSlowLane(slowLane);
+
+		}
+		countJam(slowLane);
+		MAXJamLength(slowLane);
+		if(allTimeMostLengthJam < mostLengthJam){
+			allTimeMostLengthJam = mostLengthJam;
 		}
 		
 	}
@@ -175,10 +188,34 @@ public class Road implements ActionListener{
 		this.fastLane = fastLane;
 	}
 
+
 	public void setSlowLane(boolean slowLane[]) {
 		this.slowLane = slowLane;
 	}
+	
+	public int getNumberOfJam() {
+		return numberOfJam;
+	}
 
+	public void setNumberOfJam(int numberOfJam) {
+		this.numberOfJam = numberOfJam;
+	}
+
+	public int getMostLengthJam() {
+		return mostLengthJam;
+	}
+
+	public void setMostLengthJam(int mostLengthJam) {
+		this.mostLengthJam = mostLengthJam;
+	}
+
+	public int getAllTimeMostLengthJam() {
+		return allTimeMostLengthJam;
+	}
+
+	public void setAllTimeMostLengthJam(int allTimeMostLengthJam) {
+		this.allTimeMostLengthJam = allTimeMostLengthJam;
+	}
 	
 
 
