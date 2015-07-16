@@ -30,7 +30,7 @@ public class Road implements ActionListener{
 		boolean bb[] = new boolean[MAX];
 		bb = getSlowLane();
 		advanceCar(bb);
-		setFaseLane(bb);
+		setSlowLane(bb);
 		return bb;
 	}
 	
@@ -89,7 +89,7 @@ public class Road implements ActionListener{
 		if(AutoAdvance){
 			slowLane = getSlowLane();
 			advanceCar(slowLane);
-			setFaseLane(slowLane);
+			setFastLane(slowLane);
 		}
 		
 	}
@@ -133,6 +133,15 @@ public class Road implements ActionListener{
 		}
 	}
 	
+	private void changeLane(){
+		for(int i=1; i<MAX-1; i++){
+			if(fastLane[i-1]==false && fastLane[i]==false && fastLane[i+1]==false){
+				fastLane[i] = slowLane[i];
+				slowLane[i] = false;
+			}
+		}
+	}
+	
 	public void setProbability(int i){
 		this.PROBABILITY = i;
 	}
@@ -153,9 +162,6 @@ public class Road implements ActionListener{
 		return this.slowLane;
 	}
 
-	public void setFaseLane(boolean[] jam) {
-		this.slowLane = jam;
-	}
 	
 	public void setSiganl(boolean i){
 		this.signalcolor = i;
@@ -169,6 +175,9 @@ public class Road implements ActionListener{
 		this.fastLane = fastLane;
 	}
 
+	public void setSlowLane(boolean slowLane[]) {
+		this.slowLane = slowLane;
+	}
 
 	
 
